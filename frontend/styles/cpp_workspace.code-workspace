@@ -1,0 +1,53 @@
+{
+	"folders": [
+		{
+			"name": "cpp_workspace",
+			"path": "../../../cpp_workspace"
+		},
+		{
+			"name": "url-shortner",
+			"path": "../../../../Desktop/url-shortner"
+		},
+		{
+			"name": "landing_page",
+			"path": "../../../../Desktop/reactProjects/landing_page"
+		},
+		{
+			"name": "react-complte-guide",
+			"path": "../../../../Desktop/reactProjects/react-complte-guide"
+		},
+		{
+			"name": "food-order-app",
+			"path": "../../../../Desktop/reactProjects/food-order-app"
+		},
+		{
+			"name": "pizza-shop",
+			"path": "../../../../Desktop/pizza-shop"
+		},
+		{
+			"name": "cafe",
+			"path": "../../../../Desktop/cafe"
+		},
+		{
+			"name": "1-node-farm",
+			"path": "../../../../Desktop/NODEJS/complete-node-bootcamp-master/1-node-farm"
+		},
+		{
+			"name": "3d_portfolio",
+			"path": "../../../3d_portfolio"
+		},
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../trials"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "home-inventory",
+		"[python]": {
+			"editor.defaultFormatter": "ms-python.autopep8"
+		},
+		"python.formatting.provider": "none"
+	}
+}
