@@ -58,12 +58,11 @@ dropArea.ondrop = (e) => {
 }
 
 // icons/${iconSelector(file.type)}
-// upload file function
-function uploadFile(file){
-    listSection.style.display = 'block'
-    var li = document.createElement('li')
-    li.classList.add('in-prog')
-    li.innerHTML = `
+function uploadFile(file) {
+  listSection.style.display = "block";
+  var li = document.createElement("li");
+  li.classList.add("in-prog");
+  li.innerHTML = `
         <div class="col">
             <img src="/frontend/images/image.png" alt="">
         </div>
@@ -75,31 +74,59 @@ function uploadFile(file){
             <div class="file-progress">
                 <span></span>
             </div>
-            <div class="file-size">${(file.size/(1024*1024)).toFixed(2)} MB</div>
+            <div class="file-size">${(file.size / (1024 * 1024)).toFixed(
+              2
+            )} MB</div>
         </div>
         <div class="col">
             <svg xmlns="http://www.w3.org/2000/svg" class="cross" height="20" width="20"><path d="m5.979 14.917-.854-.896 4-4.021-4-4.062.854-.896 4.042 4.062 4-4.062.854.896-4 4.062 4 4.021-.854.896-4-4.063Z"/></svg>
             <svg xmlns="http://www.w3.org/2000/svg" class="tick" height="20" width="20"><path d="m8.229 14.438-3.896-3.917 1.438-1.438 2.458 2.459 6-6L15.667 7Z"/></svg>
         </div>
-    `
-    listContainer.prepend(li)
-    var http = new XMLHttpRequest()
-    var data = new FormData()
-    data.append('file', file)
-    http.onload = () => {
-        li.classList.add('complete')
-        li.classList.remove('in-prog')
+    `;
+  listContainer.prepend(li);
+
+  var data = new FormData();
+  data.append("api_key", "TEST");
+  data.append("recognizer", "auto");
+  data.append("ref_no", "oct_python_123");
+  data.append("file", file);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "https://ocr.asprise.com/api/v1/receipt", true);
+
+  xhr.upload.onprogress = (e) => {
+    if (e.lengthComputable) {
+      var percentComplete = (e.loaded / e.total) * 100;
+      li.querySelector("span").textContent = percentComplete.toFixed(2) + "%";
     }
-    http.upload.onprogress = (e) => {
-        var percent_complete = (e.loaded / e.total)*100
-        li.querySelectorAll('span')[0].innerHTML = Math.round(percent_complete) + '%'
-        li.querySelectorAll('span')[1].style.width = percent_complete + '%'
+  };
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      li.classList.add("complete");
+      li.classList.remove("in-prog");
+      console.log(xhr.responseText); // Log the response to the console
+    } else {
+      console.error("Request failed with status " + xhr.status);
+      li.remove();
     }
-    http.open('POST', 'sender.php', true)
-    http.send(data)
-    li.querySelector('.cross').onclick = () => http.abort()
-    http.onabort = () => li.remove()
+  };
+
+  xhr.onerror = function () {
+    console.error("Request failed");
+    li.remove();
+  };
+
+  xhr.send(data);
+
+  li.querySelector(".cross").onclick = () => {
+    xhr.abort();
+    li.remove();
+  };
 }
+
+
+
 // find icon for file
 function iconSelector(type){
     var splitType = (type.split('/')[0] == 'application') ? type.split('/')[1] : type.split('/')[0];
